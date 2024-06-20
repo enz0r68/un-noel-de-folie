@@ -10,7 +10,8 @@ TagManager:
   - GoodKid
   - BadKid
   - CoterMechan
-  
+  - Leader
+  - Follower
   layers:
   - Default
   - TransparentFX
