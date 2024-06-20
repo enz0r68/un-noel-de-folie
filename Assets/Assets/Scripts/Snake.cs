@@ -5,8 +5,9 @@ using UnityEngine;
 public class Snake : MonoBehaviour
 {
     public Transform segmentPrefab;
+    public Transform Prefab2;
     public Vector2Int direction = Vector2Int.right;
-    public float speed = 20f;
+    public float speed = 15f;
     public float speedMultiplier = 1f;
     public int initialSize = 4;
     public bool moveThroughWalls = false;
@@ -78,6 +79,15 @@ public class Snake : MonoBehaviour
         segments.Add(segment);
     }
 
+    public void Grow2()
+    {
+        Transform segment = Instantiate(Prefab2);
+        segment.position = segments[segments.Count - 1].position;
+        segments.Add(segment);
+    }
+
+    
+
     public void ResetState()
     {
         direction = Vector2Int.right;
@@ -113,10 +123,13 @@ public class Snake : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Food"))
+        if (other.gameObject.CompareTag("GoodKid"))
         {
             Grow();
-        }
+        }else if (other.gameObject.CompareTag("BadKid")) 
+        {
+            Grow2();
+        }  
         else if (other.gameObject.CompareTag("Obstacle"))
         {
             ResetState();
