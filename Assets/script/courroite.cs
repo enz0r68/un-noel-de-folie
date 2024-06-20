@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; // Ajouté pour le contrôle de la scène
 
 public class courroite : MonoBehaviour
 {
     private Animator anim;
     public GameObject personage;
-    public int vitesse = 1;
+    public float vitesse = 1.5f;
     public int positionDelay = 10; // Maximum number of positions to keep in the queue
 
     // Start is called before the first frame update
@@ -14,7 +15,6 @@ public class courroite : MonoBehaviour
     {
         anim = GetComponent<Animator>();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -63,5 +63,19 @@ public class courroite : MonoBehaviour
                 anim.SetBool("courderrier", false);
             }
         }
+    }
+    private void OnCollisionEnter(Collision other) // Assurez-vous que c'est OnTriggerEnter et non OnCollisionEnter si vous utilisez des Triggers
+    {
+        if (other.gameObject.CompareTag("mort"))
+        {
+            // Appeler la méthode RestartScene pour redémarrer la scène
+            RestartScene();
+        }
+    }
+
+    void RestartScene()
+    {
+        // Redémarrer la scène actuelle
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
