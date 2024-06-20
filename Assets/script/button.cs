@@ -7,7 +7,7 @@ public class button : MonoBehaviour
 {
     public void play()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 
     public void quit()

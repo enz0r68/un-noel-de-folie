@@ -11,6 +11,8 @@ TagManager:
   - BadKid
   - CoterMechan
   - CoterGentil
+  - Leader
+  - Follower
   layers:
   - Default
   - TransparentFX
