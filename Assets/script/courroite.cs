@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.SceneManagement; // Ajouté pour le contrôle de la scène
 
 public class courroite : MonoBehaviour
 {
+    [SerializeField] AudioSource sfxSource;
+
+    public AudioClip sfx;
     private Animator anim;
     public GameObject personage;
     public float vitesse = 1.5f;
