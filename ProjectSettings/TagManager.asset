@@ -9,7 +9,8 @@ TagManager:
   - Obstacle
   - GoodKid
   - BadKid
-
+  - CoterMechan
+  
   layers:
   - Default
   - TransparentFX
