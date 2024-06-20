@@ -697,6 +697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segmentPrefab: {fileID: 4726879341727194397, guid: a20ea67b69b1572478630ab80ef547fd, type: 3}
+  Prefab2: {fileID: 4726879341727194397, guid: 8a34caf27d1d5b44a9ee4ab12084ae94, type: 3}
   direction: {x: 1, y: 0}
   speed: 20
   speedMultiplier: 1
