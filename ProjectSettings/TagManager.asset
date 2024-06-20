@@ -4,11 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - mort
   - Wall
   - Obstacle
   - GoodKid
   - BadKid
   - CoterMechan
+  
   layers:
   - Default
   - TransparentFX
