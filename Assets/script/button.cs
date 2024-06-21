@@ -10,6 +10,11 @@ public class button : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
+    public void retourmenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void quit()
     {
         Application.Quit();

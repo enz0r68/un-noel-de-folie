@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class audiomanager : MonoBehaviour
 {
-    [SerializeField] AudioSource audioSource;
-    [SerializeField] AudioSource sfxSource;
+    [SerializeField] private AudioSource audioSource; // Source audio pour la musique de fond
+    [SerializeField] private AudioSource sfxSource; // Source audio pour les effets sonores
 
-    public AudioClip backgroundMusic;
-    public AudioClip sfx;
+    [SerializeField] private AudioClip backgroundMusic; // Musique de fond initiale
+    [SerializeField] private AudioClip menuMusicClip; // Musique du menu
 
-
-    // Start is called before the first frame update
+    // Start is called before the - first frame update
     private void Start()
     {
-        audioSource.clip = backgroundMusic;
-        audioSource.Play();
+        audioSource.Stop();
+        audioSource.clip = backgroundMusic; // la musique de fond initiale
+        audioSource.Play(); // Joue la musique de fond
     }
 }

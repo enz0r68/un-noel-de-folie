@@ -7,19 +7,25 @@ using UnityEngine.SceneManagement;
 public class courroite : MonoBehaviour
 {
     [SerializeField] AudioSource sfxSource;
-
+    [SerializeField] AudioSource sfxSource1;
     public AudioClip sfx;
+    public AudioClip sfx1;
+
     private Animator anim;
     public GameObject personage;
     public float vitesse = 1.5f;
-    private bool isRunning = false;
+    private bool isPlayingFootstepSound = false;
+    private bool playerIsCurrentlyMoving = false;
+
+    // Compteur requis pour terminer le jeu
+    public string nextSceneName; // Nom de la scène suivante à charger
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         sfxSource.clip = sfx;
-        sfxSource.loop = true; // Assurez-vous que le son est configuré pour se répéter
+        sfxSource.loop = false; // Le son de pas ne devrait pas être en boucle
     }
 
     // Update is called once per frame
@@ -27,29 +33,29 @@ public class courroite : MonoBehaviour
     {
         if (anim != null)
         {
+            playerIsCurrentlyMoving = false;
+
             // Check for horizontal movement
             if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow))
             {
                 anim.SetBool("courdroite", true);
                 personage.transform.Translate(Vector3.right * vitesse * Time.deltaTime);
-                PlayRunningSound();
+                playerIsCurrentlyMoving = true;
             }
             else
             {
                 anim.SetBool("courdroite", false);
-                StopRunningSound();
             }
 
             if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow))
             {
                 anim.SetBool("courgauche", true);
                 personage.transform.Translate(Vector3.left * vitesse * Time.deltaTime);
-                PlayRunningSound();
+                playerIsCurrentlyMoving = true;
             }
             else
             {
                 anim.SetBool("courgauche", false);
-                StopRunningSound();
             }
 
             // Check for vertical movement
@@ -57,43 +63,59 @@ public class courroite : MonoBehaviour
             {
                 anim.SetBool("courdevant", true);
                 personage.transform.Translate(Vector3.up * vitesse * Time.deltaTime);
-                PlayRunningSound();
+                playerIsCurrentlyMoving = true;
             }
             else
             {
                 anim.SetBool("courdevant", false);
-                StopRunningSound();
             }
 
             if (Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
             {
                 anim.SetBool("courderrier", true);
                 personage.transform.Translate(Vector3.down * vitesse * Time.deltaTime);
-                PlayRunningSound();
+                playerIsCurrentlyMoving = true;
             }
             else
             {
                 anim.SetBool("courderrier", false);
-                StopRunningSound();
+            }
+
+            // Play or stop the footstep sound based on movement
+            if (playerIsCurrentlyMoving)
+            {
+                PlayFootstepSound();
+            }
+            else
+            {
+                StopFootstepSound();
             }
         }
     }
 
-    void PlayRunningSound()
+    void PlayFootstepSound()
     {
-        if (!isRunning)
+        if (!isPlayingFootstepSound)
         {
             sfxSource.Play();
-            isRunning = true;
+            isPlayingFootstepSound = true;
         }
     }
 
-    void StopRunningSound()
+    void StopFootstepSound()
     {
-        if (isRunning)
+        if (isPlayingFootstepSound)
         {
             sfxSource.Stop();
-            isRunning = false;
+            isPlayingFootstepSound = false;
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (playerIsCurrentlyMoving && !sfxSource.isPlaying)
+        {
+            sfxSource.Play();
         }
     }
 
@@ -102,6 +124,12 @@ public class courroite : MonoBehaviour
         if (other.gameObject.CompareTag("mort"))
         {
             RestartScene();
+        }
+
+        // Vérifiez la condition de victoire
+        if (other.gameObject.CompareTag("fin") && (suivre2.followerCount == 8))
+        {
+            Debug.Log("VICTOIRE");
         }
     }
 
