@@ -3,7 +3,6 @@ using UnityEngine;
 public class audiomanager1 : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
-    // Assuming there's another AudioSource for sound effects if needed
     [SerializeField] private AudioSource sfxSource;
 
     public AudioClip backgroundMusic;
@@ -23,7 +22,6 @@ public class audiomanager1 : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {

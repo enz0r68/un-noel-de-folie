@@ -130,6 +130,7 @@ public class courroite : MonoBehaviour
         if (other.gameObject.CompareTag("fin") && (suivre2.followerCount == 8))
         {
             Debug.Log("VICTOIRE");
+            SceneManager.LoadScene(4);
         }
     }
 
