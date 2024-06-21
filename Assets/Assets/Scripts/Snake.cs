@@ -7,7 +7,7 @@ public class Snake : MonoBehaviour
     public Vector3Int direction = Vector3Int.right;
     public Transform segmentPrefab;
     public Transform Prefab2;
-    // public Vector2Int direction = Vector2Int.right;
+    
     public float speed = 15f;
     public float speedMultiplier = 1f;
     public int initialSize = 1;
@@ -16,6 +16,12 @@ public class Snake : MonoBehaviour
     public int gentil = 0;
     public int mechant = 0;
 
+    public int ScoreGentil = 0;
+    public int ScoreMehant = 0;
+
+    public int FinalScore = 0;
+
+    [SerializeField]
     private List<Transform> segments = new List<Transform>();
     private Vector2Int input;
     private float nextUpdate;
@@ -97,6 +103,7 @@ public class Snake : MonoBehaviour
     if (segments.Count == 0 || (segments.Count > 0 && segments[segments.Count - 1]!= null))
     {
         gentil++;
+        Debug.Log("segment count " + segments.Count);
         Transform segment = Instantiate(segmentPrefab);
         // Pour le premier segment, positionnez-le à la position actuelle du snake
         if (segments.Count == 0)
@@ -107,10 +114,10 @@ public class Snake : MonoBehaviour
         {
             // Sinon, positionnez le nouveau segment juste après le dernier
             // Convertir direction en Vector3 avant l'addition
-            segment.position = segments[segments.Count - 1].position + direction;
+            segment.position = segments[segments.Count - 1].position - direction;
         }
         segments.Add(segment);
-        Debug.Log(gentil);
+        Debug.Log("gentil" + gentil);
     }
 }
 
@@ -121,9 +128,19 @@ public class Snake : MonoBehaviour
     {
         mechant++;
         Transform segment = Instantiate(Prefab2);
-        segment.position = segments[segments.Count - 1].position;
+        // Pour le premier segment, positionnez-le à la position actuelle du snake
+        if (segments.Count == 0)
+        {
+            segment.position = transform.position;
+        }
+        else
+        {
+            // Sinon, positionnez le nouveau segment juste après le dernier
+            // Convertir direction en Vector3 avant l'addition
+            segment.position = segments[segments.Count - 1].position - direction;
+        }
         segments.Add(segment);
-        Debug.Log(mechant);
+        Debug.Log("mechant" + mechant);
     }
     }
 
@@ -133,6 +150,7 @@ public class Snake : MonoBehaviour
     {
     gentil = 0;
     mechant = 0;
+    
 
     direction = new Vector3Int(1, 0, 0);
     transform.position = Vector3.zero;
@@ -163,6 +181,8 @@ public class Snake : MonoBehaviour
     }
     }
 
+
+
     public bool Occupies(int x, int y)
     {
     foreach (Transform segment in segments)
@@ -179,23 +199,48 @@ public class Snake : MonoBehaviour
     }
 
 
-         
-    
-
-
     private void OnTriggerEnter2D(Collider2D other)
     {
 
         
         if (other.gameObject.CompareTag("CoterGentil")){
-            ResetState();
+            
+            if (mechant == 0 && gentil > 0){
+                ScoreGentil++;
+                FinalScore += ScoreGentil;
+
+                ResetState();
+            }else{
+                ResetState();
+            }
+            
+            
         }
+
+        if (other.gameObject.CompareTag("CoterMechan")){
+            
+            if (gentil == 0 && mechant > 0){
+                ScoreMehant++;
+                FinalScore += ScoreMehant;
+                ResetState();
+            }else{
+                ResetState();
+            }
+            
+            
+        }
+
+
         if (other.gameObject.CompareTag("GoodKid"))
         {
+            
             Grow();
+
         }else if (other.gameObject.CompareTag("BadKid")) 
         {
+            
             Grow2();
+
         }  
         else if (other.gameObject.CompareTag("Obstacle"))
         {
