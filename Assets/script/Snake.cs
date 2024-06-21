@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class Snake : MonoBehaviour
@@ -28,12 +29,18 @@ public class Snake : MonoBehaviour
 
     private void Start()
     {
+        gentil = 0;
+        mechant = 0;
+        ScoreGentil = 0;
+        ScoreMehant = 0;
+        
         ResetState();
     
     }
 
     private void Update()
     {
+        
 
         // Only allow turning up or down while moving in the x-axis
         if (direction.x != 0f)
@@ -57,6 +64,8 @@ public class Snake : MonoBehaviour
 
    private void FixedUpdate()
     {
+        
+
     // Vérifiez si il reste au moins un segment
     if (segments.Count <= 0)
     {
@@ -150,6 +159,8 @@ public class Snake : MonoBehaviour
     {
     gentil = 0;
     mechant = 0;
+    ScoreGentil = 0;
+    ScoreMehant = 0;
     
 
     direction = new Vector3Int(1, 0, 0);
@@ -202,10 +213,19 @@ public class Snake : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
 
+        if (other.gameObject.CompareTag("END")){
+            if(FinalScore >= 6)
+        {
+            SceneManager.LoadScene(6);
+        }else {
+            Start();
+        }
+        }
+
         
         if (other.gameObject.CompareTag("CoterGentil")){
             
-            if (mechant == 0 && gentil > 0){
+            if (mechant == 0 && gentil >= 10){
                 ScoreGentil++;
                 FinalScore += ScoreGentil;
 
@@ -219,7 +239,7 @@ public class Snake : MonoBehaviour
 
         if (other.gameObject.CompareTag("CoterMechan")){
             
-            if (gentil == 0 && mechant > 0){
+            if (gentil == 0 && mechant >= 10){
                 ScoreMehant++;
                 FinalScore += ScoreMehant;
                 ResetState();
