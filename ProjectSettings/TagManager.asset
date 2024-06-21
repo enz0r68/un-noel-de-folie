@@ -13,6 +13,7 @@ TagManager:
   - CoterGentil
   - Leader
   - Follower
+  - fin
   layers:
   - Default
   - TransparentFX
